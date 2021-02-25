@@ -79,14 +79,15 @@ public class GameController : MonoBehaviour
 
         if (turnCount > 3)
         {
-            checkWin();
+            bool isWinner = checkWin();
+            if (turnCount == 9 && !isWinner)
+            {
+                win.gameObject.SetActive(true);
+                win.transform.GetChild(0).GetComponent<Image>().sprite = whoseWin[2];
+            }
         }
 
-        if(turnCount > 8)
-        {
-            win.gameObject.SetActive(true);
-            win.transform.GetChild(0).GetComponent<Image>().sprite = whoseWin[2];
-        }
+        
 
         if (turn == 0)
         {
@@ -104,7 +105,7 @@ public class GameController : MonoBehaviour
 
     }
 
-    private void checkWin()
+    private bool checkWin()
     {
         int p1 = markedSpace[0] + markedSpace[1] + markedSpace[2];
         int p2 = markedSpace[0] + markedSpace[3] + markedSpace[6];
@@ -122,8 +123,10 @@ public class GameController : MonoBehaviour
             if(possibilityTable[i] == 3 * turn)
             {
                 displayWinner(i);
+                return true;
             }
         }
+        return false;
 
     }
 
